@@ -51,6 +51,7 @@ class Caesar {
                 }
             }
         }
+        /** Brute Force By Frequent Letters & Detect Language */
         const cipherFrequentLetters = Object.keys(charCounter).sort((a, b) => b - a);
         for (let j = 0; j < this.frequentLetters.length; j++) {
             let key = this.letters.indexOf(cipherFrequentLetters[0]) - this.letters.indexOf(this.frequentLetters[j]);
