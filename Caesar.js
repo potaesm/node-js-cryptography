@@ -1,3 +1,5 @@
+// https://github.com/lorenbrichter/Words
+const fs = require('fs-extra');
 class Caesar {
     static letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     // https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
@@ -35,7 +37,7 @@ class Caesar {
         }
         return plaintext;
     }
-    static crackWithFrequencyAnalysis(ciphertext = '') {
+    static async crack(ciphertext = '') {
         const possiblePlaintexts = [];
         const charCounter = {};
         /** Frequency Analysis */
@@ -53,9 +55,22 @@ class Caesar {
         for (let j = 0; j < this.frequentLetters.length; j++) {
             let key = this.letters.indexOf(cipherFrequentLetters[0]) - this.letters.indexOf(this.frequentLetters[j]);
             key = key < 0 ? 26 + key : key;
-            possiblePlaintexts.push(this.decrypt(ciphertext, key));
+            const decryptedObject = { key, plaintext: this.decrypt(ciphertext, key) };
+            const isEnglish = await this.isEnglish(decryptedObject.plaintext);
+            if (isEnglish) return [decryptedObject];
+            possiblePlaintexts.push(decryptedObject);
         }
         return possiblePlaintexts;
+    }
+    static async isEnglish(text = '', minimumConfident = 50) {
+        const enTxt = await fs.readFile('en.txt', 'utf-8');
+        const enArray = enTxt.toString().split('\n');
+        const lowerCaseText = text.toLowerCase().split(' ').filter(_ => !!_);
+        let counter = 0;
+        for (let i = 0; i < lowerCaseText.length; i++) {
+            if (enArray.includes(lowerCaseText[i])) counter++;
+        }
+        return counter / lowerCaseText.length * 100 > minimumConfident;
     }
 }
 
