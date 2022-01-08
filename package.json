@@ -1,0 +1,25 @@
+{
+  "name": "node-js-cryptography",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/potaesm/node-js-cryptography.git"
+  },
+  "keywords": [
+    "node-js-cryptography"
+  ],
+  "author": "Suthinan Musitmani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/potaesm/node-js-cryptography/issues"
+  },
+  "homepage": "https://github.com/potaesm/node-js-cryptography#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
