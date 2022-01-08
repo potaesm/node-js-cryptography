@@ -1,5 +1,5 @@
-// https://github.com/lorenbrichter/Words
 const fs = require('fs-extra');
+
 class Caesar {
     static letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     // https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
@@ -63,6 +63,7 @@ class Caesar {
         return possiblePlaintexts;
     }
     static async isEnglish(text = '', minimumConfident = 50) {
+        // https://github.com/lorenbrichter/Words
         const enTxt = await fs.readFile('en.txt', 'utf-8');
         const enArray = enTxt.toString().split('\n');
         const lowerCaseText = text.toLowerCase().split(' ').filter(_ => !!_);
