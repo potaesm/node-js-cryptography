@@ -1,4 +1,5 @@
 const Caesar = require('./caesar');
+const OneTimePad = require('./OneTimePad');
 const Vigenere = require('./Vigenere');
 
 const plaintext = `The Caesar cipher is named after Julius Caesar, who, according to Suetonius, used it with a shift of three (A becoming D when encrypting, and D becoming A when decrypting) to protect messages of military significance. While Caesar's was the first recorded use of this scheme, other substitution ciphers are known to have been used earlier`;
@@ -17,13 +18,23 @@ const plaintext = `The Caesar cipher is named after Julius Caesar, who, accordin
     //     caesarCrackedPlaintexts
     // });
     /** Vigenere Cipher */
-    const vigenereKey = 'SUTHINAN';
-    const vigenereEncryptedCipher = Vigenere.encrypt(plaintext, vigenereKey);
-    const vigenereDecryptedPlaintext = Vigenere.decrypt(vigenereEncryptedCipher, vigenereKey);
+    // const vigenereKey = 'SUTHINAN';
+    // const vigenereEncryptedCipher = Vigenere.encrypt(plaintext, vigenereKey);
+    // const vigenereDecryptedPlaintext = Vigenere.decrypt(vigenereEncryptedCipher, vigenereKey);
+    // console.log({
+    //     plaintext,
+    //     vigenereKey,
+    //     vigenereEncryptedCipher,
+    //     vigenereDecryptedPlaintext
+    // });
+    /** One Time Pad Cipher */
+    const oneTimePadKey = OneTimePad.randomSequence(plaintext);
+    const oneTimePadEncryptedCipher = OneTimePad.encrypt(plaintext, oneTimePadKey);
+    const oneTimePadDecryptedPlaintext = OneTimePad.decrypt(oneTimePadEncryptedCipher, oneTimePadKey);
     console.log({
         plaintext,
-        vigenereKey,
-        vigenereEncryptedCipher,
-        vigenereDecryptedPlaintext
+        oneTimePadKey,
+        oneTimePadEncryptedCipher,
+        oneTimePadDecryptedPlaintext
     });
 })();

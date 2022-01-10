@@ -1,39 +1,47 @@
-
-class Vigenere {
+class OneTimePad {
     static letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    static encrypt(plaintext = '', key = '') {
-        let ciphertext = '';
-        if (!plaintext || typeof key !== 'string') return ciphertext;
+    static randomSequence(plaintext = '') {
+        const randomArray = [];
         const letters = this.letters;
-        let keyCharIndex = 0;
+        for (let i = 0; i < plaintext.length; i++) {
+            const char = plaintext[i].toUpperCase();
+            if (` ${letters}`.includes(char) && !!char.trim()) {
+                randomArray.push(Math.floor(Math.random() * (letters.length - 1)));
+            }
+        }
+        return randomArray;
+    }
+    static encrypt(plaintext = '', key = []) {
+        let ciphertext = '';
+        if (!plaintext || !Array.isArray(key)) return ciphertext;
+        const letters = this.letters;
+        let keyIndex = 0;
         for (let i = 0; i < plaintext.length; i++) {
             let char = plaintext[i].toUpperCase();
             if (` ${letters}`.includes(char)) {
                 if (!!char.trim()) {
-                    const keyChar = key[keyCharIndex % key.length].toUpperCase();
-                    const ciphertextCharIndex = (letters.indexOf(char) + letters.indexOf(keyChar)) % 26;
+                    const ciphertextCharIndex = (letters.indexOf(char) + key[keyIndex]) % 26;
                     char = letters[ciphertextCharIndex];
-                    keyCharIndex++;
+                    keyIndex++;
                 }
                 ciphertext += char;
             }
         }
         return ciphertext;
     }
-    static decrypt(ciphertext = '', key = '') {
+    static decrypt(ciphertext = '', key = []) {
         let plaintext = '';
-        if (!ciphertext || typeof key !== 'string') return plaintext;
+        if (!ciphertext || !Array.isArray(key)) return plaintext;
         const letters = this.letters;
-        let keyCharIndex = 0;
+        let keyIndex = 0;
         for (let i = 0; i < ciphertext.length; i++) {
             let char = ciphertext[i].toUpperCase();
             if (` ${letters}`.includes(char)) {
                 if (!!char.trim()) {
-                    const keyChar = key[keyCharIndex % key.length].toUpperCase();
-                    let plaintextCharIndex = (letters.indexOf(char) - letters.indexOf(keyChar)) % 26;
+                    let plaintextCharIndex = (letters.indexOf(char) - key[keyIndex]) % 26;
                     plaintextCharIndex = plaintextCharIndex < 0 ? 26 + plaintextCharIndex : plaintextCharIndex;
                     char = letters[plaintextCharIndex];
-                    keyCharIndex++;
+                    keyIndex++;
                 }
                 plaintext += char;
             }
@@ -42,4 +50,4 @@ class Vigenere {
     }
 }
 
-module.exports = Vigenere;
+module.exports = OneTimePad;
