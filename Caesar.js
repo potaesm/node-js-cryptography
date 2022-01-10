@@ -12,8 +12,8 @@ class Caesar {
             let char = plaintext[i].toUpperCase();
             if (` ${letters}`.includes(char)) {
                 if (!!char.trim()) {
-                    const newIndex = (letters.indexOf(char) + key) % 26;
-                    char = letters[newIndex];
+                    const ciphertextCharIndex = (letters.indexOf(char) + key) % 26;
+                    char = letters[ciphertextCharIndex];
                 }
                 ciphertext += char;
             }
@@ -28,9 +28,9 @@ class Caesar {
             let char = ciphertext[i].toUpperCase();
             if (` ${letters}`.includes(char)) {
                 if (!!char.trim()) {
-                    let newIndex = (letters.indexOf(char) - key) % 26;
-                    newIndex = newIndex < 0 ? 26 + newIndex : newIndex;
-                    char = letters[newIndex];
+                    let plaintextCharIndex = (letters.indexOf(char) - key) % 26;
+                    plaintextCharIndex = plaintextCharIndex < 0 ? 26 + plaintextCharIndex : plaintextCharIndex;
+                    char = letters[plaintextCharIndex];
                 }
                 plaintext += char;
             }
@@ -39,20 +39,20 @@ class Caesar {
     }
     static async crack(ciphertext = '') {
         const possiblePlaintexts = [];
-        const charCounter = {};
+        const charFrequentCounter = {};
         /** Frequency Analysis */
         for (let i = 0; i < ciphertext.length; i++) {
             const char = ciphertext[i].toUpperCase();
             if (this.letters.includes(char)) {
-                if (!charCounter.hasOwnProperty(char)) {
-                    charCounter[char] = 1;
+                if (!charFrequentCounter.hasOwnProperty(char)) {
+                    charFrequentCounter[char] = 1;
                 } else {
-                    charCounter[char] = charCounter[char] + 1;
+                    charFrequentCounter[char] = charFrequentCounter[char] + 1;
                 }
             }
         }
         /** Brute Force By Frequent Letters & Detect Language */
-        const cipherFrequentLetters = Object.keys(charCounter).sort((a, b) => b - a);
+        const cipherFrequentLetters = Object.keys(charFrequentCounter).sort((a, b) => b - a);
         for (let j = 0; j < this.frequentLetters.length; j++) {
             let key = this.letters.indexOf(cipherFrequentLetters[0]) - this.letters.indexOf(this.frequentLetters[j]);
             key = key < 0 ? 26 + key : key;
